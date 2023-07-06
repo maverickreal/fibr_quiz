@@ -1,0 +1,27 @@
+{
+  "name": "userauthsys",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/maverickreal/userAuthSys.git"
+  },
+  "author": "maverick",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/maverickreal/userAuthSys/issues"
+  },
+  "homepage": "https://github.com/maverickreal/userAuthSys#readme",
+  "dependencies": {
+    "awilix": "^8.0.0",
+    "bcrypt": "^5.1.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "jsonwebtoken": "^9.0.0",
+    "mongodb": "^5.0.1",
+    "uuid": "^9.0.0"
+  }
+}
