@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
+const Constant = require('../../../logic/utility/constant/index.js');
 
-const answerSchema = new mongoose.Schema({
+const genericAnswerSchema = new mongoose.Schema({
     answer: {
         type: String,
         required: true
@@ -12,18 +13,29 @@ const answerSchema = new mongoose.Schema({
 });
 
 const questionSchema = new mongoose.Schema({
+    sequenceNumber: {
+        type: Number,
+        required: true
+    },
+    quiz: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Quiz',
+        required: true
+    },
     question: {
         type: String,
         required: true
     },
-    answers: {
-        type: [answerSchema],
+    answer: {
+        type: [genericAnswerSchema],
         required: true,
         validate: {
-            validator: ans => ans.length === 4,
-            message: 'Answers must be 4.'
+            validator: ans => ans.length === Constant.maxNumberOfAnswers,
+            message: `Answers must be ${maxNumberOfAnswers}.`
         }
     }
 });
+
+// questionSchema.createIndex({ quiz: 1, sequenceNumber: 1 }, { unique: true });
 
 module.exports = mongoose.model('Question', questionSchema);

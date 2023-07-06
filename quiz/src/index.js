@@ -14,7 +14,7 @@ app.use('/quiz', Controller.router());
 
 db.init().then(() => {
     console.log('Connected to database!');
-    app.listen(process.env.USERAPIPORT, () => console.log('Started quiz API!'));
+    app.listen(process.env.USERAPIqPORT, () => console.log('Started quiz API!'));
 }).catch(err => {
     console.log(err);
     process.exit(1);

@@ -3,7 +3,7 @@ const User = require('../../data/models/user/index.js');
 class Handler {
     static #errorAndLog = (err, res) => {
         console.log(err);
-        res.status(500).json();
+        res.status(500).send();
     }
     static signup = async (req, res) => {
         try {
@@ -30,15 +30,6 @@ class Handler {
             res.status(200).send({ message: 'User updated.' });
         } catch (err) {
             Handler.#errorAndLog(err, res)
-        }
-    }
-    static deleteUser = async (req, res) => {
-        try {
-            await User.deleteOne({ email });
-            res.status(200).send({ message: 'User deleted.' })
-
-        } catch (err) {
-            Handler.#errorAndLog(err, res);
         }
     }
 }

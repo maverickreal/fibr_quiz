@@ -6,7 +6,6 @@ class Controller {
 
         router.post('', Handler.signup);
         router.patch('', Handler.updateUser);
-        router.delete('', Handler.deleteUser);
         router.get('', Handler.getUser);
 
         return this.router;
