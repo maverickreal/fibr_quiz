@@ -35,8 +35,10 @@ class Handler {
 
     static async verify(req, res) {
         try {
-            const { token } = req.body,
+            const { token } = req.query,
                 user = Auth.auth(token);
+
+            console.log('xyz', token, user);
             if (user == null) {
                 res.status(404).send({ message: 'Correct token not provided.' });
             }

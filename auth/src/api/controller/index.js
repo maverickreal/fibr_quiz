@@ -5,7 +5,7 @@ class Controller {
 		const router = require('express').Router();
 
 		router.post('/authorise', Handler.authorise);
-		router.put('/unauthorise', Handler.unauthorise);
+		router.delete('/unauthorise', Handler.unauthorise);
 		router.get('/verify', Handler.verify);
 
 		return router;
