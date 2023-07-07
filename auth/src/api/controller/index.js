@@ -1,18 +1,15 @@
-const { auth } = require('../../data/models/token/index.js');
 const Handler = require('../../logic/handler/index.js');
 
 class Controller {
-    static Router = () => {
-        const router = require('express').Router();
+	static router = () => {
+		const router = require('express').Router();
 
-        router.post('/signup', Handler.postSignup);
-        router.post('/signin', Handler.postSignin);
-        router.post('/signout', auth, Handler.postSignout);
-        router.patch('/user', auth, Handler.putUser, Handler.postSignout);
-        router.patch('/password', auth, Handler.putPassword, Handler.postSignout);
+		router.post('/authorise', Handler.authorise);
+		router.put('/unauthorise', Handler.unauthorise);
+		router.get('/verify', Handler.verify);
 
-        return router;
-    }
+		return router;
+	}
 }
 
 module.exports = Controller;
