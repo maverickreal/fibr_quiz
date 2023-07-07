@@ -10,13 +10,7 @@ const app = express();
 app.use(helmet());
 app.use(cors());
 app.use(morgan('tiny'));
-app.use('/user', Controller.router());
+app.use('/auth', Controller.router());
 app.use(express.json());
 
-db.init().then(() => {
-    console.log('Connected to database!');
-    app.listen(process.env.USERAPIPORT, () => console.log('Started user API!'));
-}).catch(err => {
-    console.log(err);
-    process.exit(1);
-});
+app.listen(process.env.AUTHAPIPORT, () => console.log('Started user API!'));

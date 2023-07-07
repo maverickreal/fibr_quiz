@@ -1,27 +1,21 @@
 {
-  "name": "userauthsys",
+  "name": "auth",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
-  "scripts": {},
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/maverickreal/userAuthSys.git"
+  "main": "src/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "maverick",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/maverickreal/userAuthSys/issues"
-  },
-  "homepage": "https://github.com/maverickreal/userAuthSys#readme",
+  "license": "Apache-2.0",
   "dependencies": {
-    "awilix": "^8.0.0",
+    "awilix": "^8.0.1",
     "bcrypt": "^5.1.0",
     "cors": "^2.8.5",
-    "dotenv": "^16.0.3",
     "express": "^4.18.2",
-    "jsonwebtoken": "^9.0.0",
-    "mongodb": "^5.0.1",
+    "jsonwebtoken": "^9.0.1",
+    "mongodb": "^5.7.0",
+    "superagent": "^8.0.9",
     "uuid": "^9.0.0"
   }
 }

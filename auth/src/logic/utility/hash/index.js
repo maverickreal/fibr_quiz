@@ -1,10 +1,11 @@
 const bcrypt = require('bcrypt');
+const Constant = require('./constant.js');
 
 class Hash {
-  static rounds = 10;
+  static rounds = Constant.hashRounds;
 
-  static async hash(data, salt=null) {
-    if(!salt){
+  static async hash(data, salt = null) {
+    if (!salt) {
       salt = await bcrypt.genSalt(Hash.rounds);
     }
     return {
@@ -14,7 +15,7 @@ class Hash {
   }
 
   static async check(newPassword, salt, existingHash) {
-    const {password: npHash} = await Hash.hash(newPassword, salt);
+    const { password: npHash } = await Hash.hash(newPassword, salt);
     return (npHash === existingHash);
   }
 }
