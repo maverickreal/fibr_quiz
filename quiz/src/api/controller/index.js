@@ -10,7 +10,7 @@ class Controller {
         router.get('/question', Auth.authenticate, QuizMiddleware.quizMiddleware, Handler.getQuizQuestion);
         router.post('/answer', Auth.authenticate, QuizMiddleware.quizMiddleware, Handler.postQuizQuestionAnswer);
 
-        return this.router;
+        return router;
     }
 }
 

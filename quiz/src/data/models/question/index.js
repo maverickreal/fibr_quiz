@@ -31,7 +31,7 @@ const questionSchema = new mongoose.Schema({
         required: true,
         validate: {
             validator: ans => ans.length === Constant.maxNumberOfAnswers,
-            message: `Answers must be ${maxNumberOfAnswers}.`
+            message: `Answers must be ${Constant.maxNumberOfAnswers}.`
         }
     }
 });

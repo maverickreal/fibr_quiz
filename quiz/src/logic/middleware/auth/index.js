@@ -1,12 +1,12 @@
-const axios = require('axios');
+const axios = require('axios').create({ validateStatus: false });
 
 class Auth {
     static async authenticate(req, res, next) {
-        const res = await axios.get(process.env.AUTHAPIURL + '/verify', {
+        const resp = await axios.get(process.env.AUTHAPIURL + '/verify', {
             params: { token: req.query.token }
         });
-        if (res.status === 200) {
-            req.user = res.data;
+        if (resp.status === 200) {
+            req.user = resp.data;
             next();
         }
         res.status(401).send('Unauthorized');
