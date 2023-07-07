@@ -1,4 +1,4 @@
-const Auth = require('../middleware/auth/index.js');
+const Auth = require('../utility/auth/index.js');
 
 class Handler {
     static #errorAndLog(res, error) {

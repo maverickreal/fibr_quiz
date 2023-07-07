@@ -1,12 +1,14 @@
-const Handler = require('../../logic/handlers/index.js');
+const Handler = require('../../logic/handlers/index.js'),
+    Auth = require('../../logic/middleware/auth/index.js'),
+    QuizMiddleware = require('../../logic/middleware/quiz/index.js');
 
 class Controller {
     static router = () => {
         const router = require('express').Router();
 
-        router.post('', Handler.createQuiz);
-        router.get('/question', Handler.getQuizQuestion);
-        router.post('/answer', Handler.postQuizQuestionAnswer);
+        router.post('', Auth.authenticate, Handler.createQuiz);
+        router.get('/question', Auth.authenticate, QuizMiddleware.quizMiddleware, Handler.getQuizQuestion);
+        router.post('/answer', Auth.authenticate, QuizMiddleware.quizMiddleware, Handler.postQuizQuestionAnswer);
 
         return this.router;
     }

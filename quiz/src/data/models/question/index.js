@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const Constant = require('../../../logic/utility/constant/index.js');
 
-const genericAnswerSchema = new mongoose.Schema({
+const localAnswerSchema = new mongoose.Schema({
     answer: {
         type: String,
         required: true
@@ -27,7 +27,7 @@ const questionSchema = new mongoose.Schema({
         required: true
     },
     answer: {
-        type: [genericAnswerSchema],
+        type: [localAnswerSchema],
         required: true,
         validate: {
             validator: ans => ans.length === Constant.maxNumberOfAnswers,

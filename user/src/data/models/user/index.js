@@ -13,7 +13,7 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true,
         unique: true,
-        match: /^ [\w -] + (\.[\w-]+) * @([\w -] +\.)+[a - zA - Z]{ 2, 7 } $ /,
+        match: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
         index: true
     },
     quizes: {

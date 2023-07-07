@@ -13,10 +13,13 @@ app.use(morgan('tiny'));
 app.use('/quiz', Controller.router());
 app.use(express.json());
 
-db.init().then(() => {
-    console.log('Connected to database!');
-    app.listen(process.env.QUIZAPIPORT, () => console.log('Started quiz API!'));
-}).catch(err => {
+db.init().catch(err => {
     console.log(err);
     process.exit(1);
 });
+
+if (process.env.ENV === 'test') {
+    module.exports = app;
+} else {
+    app.listen(process.env.QUIZAPIPORT, () => console.log('Started quiz API!'));
+}
