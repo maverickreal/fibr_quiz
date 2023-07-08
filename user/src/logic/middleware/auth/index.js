@@ -5,10 +5,6 @@ const axios = require('axios').create({ validateStatus: false }),
 
 class Auth {
     static async authenticate(req, res, next) {
-        if (process.env.ENV === 'test') {
-            req.user = await User.findOne({ email: req.query.email });
-            return next();
-        }
         const token = req.query.token || req.body.token;
         const resp = await axios.get(process.env.AUTHAPIURL + Constant.authApiAuthenticatePath, {
             params: { token }
@@ -20,9 +16,6 @@ class Auth {
         next();
     }
     static async authorise(req, res) {
-        if (process.env.ENV === 'test') {
-            return res.status(200).send({ token: 'testToken', message: 'User created.' });
-        }
         const body = { user: { email: req.user.email } };
         const resp = await axios.post(process.env.AUTHAPIURL + Constant.authApiAuthorisePath, body);
         if (resp.status === 200) {
