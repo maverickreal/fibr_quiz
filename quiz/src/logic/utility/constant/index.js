@@ -3,6 +3,7 @@ class Constant {
     static authApiAuthenticatePath = "/authenticate";
     static authApiAuthorisePath = "/authorise";
     static authApiUnauthorisePath = "/unauthorise";
+    static quizApiQuizQuestionPath = "/quiz/question";
 }
 
 module.exports = Constant;

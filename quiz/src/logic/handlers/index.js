@@ -1,7 +1,8 @@
 const Question = require('../../data/models/question/index.js'),
     Quiz = require('../../data/models/quiz/index.js'),
     Attempt = require('../../data/models/attempt/index.js'),
-    Answer = require('../../data/models/answer/index.js');
+    Answer = require('../../data/models/answer/index.js'),
+    Constant = require('../../logic/utility/constant/index.js');
 
 class Handler {
     static #errorAndLog(err, res) {
@@ -10,7 +11,11 @@ class Handler {
     }
     static async createQuiz(req, res) {
         try {
-            const quiz = await Quiz.create({
+            let quiz = await Quiz.findOne({ title: req.body.title });
+            if (quiz) {
+                return res.status(409).send({ message: 'Quiz already exists.' });
+            }
+            quiz = await Quiz.create({
                 creator: req.user._id,
                 title: req.body.title
             });
@@ -23,7 +28,8 @@ class Handler {
             questions = questions.map(q => q._id);
             quiz.questions = questions;
             await quiz.save();
-            res.status(201).send({ message: 'Quiz created' });
+            const linkToTheQuiz = `${process.env.QUIZAPIURL}${Constant.quizApiQuizQuestionPath}?title=${quiz.title}`;
+            res.status(201).send({ message: `Quiz created. Acces it at: ${linkToTheQuiz}` });
         } catch (err) {
             Handler.#errorAndLog(err, res);
         }
