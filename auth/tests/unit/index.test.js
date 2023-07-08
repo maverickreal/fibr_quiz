@@ -16,13 +16,13 @@ describe('running tests', () => {
     });
 
     test('testing verify', async () => {
-        const res = await axios.get(`http://127.0.0.1:${process.env.AUTHAPIPORT}/auth/verify`, { params: { token, userId } });
+        const res = await axios.get(`http://127.0.0.1:${process.env.AUTHAPIPORT}/auth/authenticate`, { params: { token, userId } });
         console.log(2, res.data.message);
         expect(res.status).toBe(200);
     });
 
     test('testing unauthorise', async () => {
-        const res = await axios.delete(`http://127.0.0.1:${process.env.AUTHAPIPORT}/auth/unauthorise`, { data: { userId: 'abc123' } });
+        const res = await axios.delete(`http://127.0.0.1:${process.env.AUTHAPIPORT}/auth/unauthorise`, { data: { user: { email: 'abc123' } } });
         console.log(3, res.data.message);
         expect(res.status).toBe(200);
     });

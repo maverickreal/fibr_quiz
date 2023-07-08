@@ -5,7 +5,7 @@ class Controller {
     static router = () => {
         const router = require('express').Router();
 
-        router.post('', Handler.signup);
+        router.post('', Handler.signup, Auth.authorise);
         router.patch('', Auth.authenticate, Handler.updateUser);
         router.get('', Handler.getUser);
 

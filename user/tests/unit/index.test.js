@@ -11,7 +11,8 @@ describe('running tests', () => {
             firstName: 'alpha',
             lastName: 'beta',
             email: 'abc@xyz.org',
-            quizes: []
+            quizes: [],
+            password: '#Password9'
         });
         console.log(1, res.data.message);
         expect(res.status).toBe(200);
@@ -30,7 +31,8 @@ describe('running tests', () => {
             firstName: 'alpha',
             lastName: 'beta',
             email: 'abc@xyz.org',
-            quizes: []
+            quizes: [],
+            password: '#Password9'
         });
         console.log(3, res.data.message);
         expect(res.status).toBe(400);

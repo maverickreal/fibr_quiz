@@ -21,11 +21,10 @@ class Handler {
 
     static async unauthorise(req, res) {
         try {
-            const { userId } = req.body;
-            if (!userId) {
+            if (!req.body.user) {
                 return res.status(404).send({ message: 'Correct user not provided.' });
             }
-            Auth.invalidate(userId);
+            Auth.invalidate(req.body.email);
             res.status(200).send();
         }
         catch (error) {
@@ -33,12 +32,10 @@ class Handler {
         }
     }
 
-    static async verify(req, res) {
+    static async authenticate(req, res) {
         try {
             const { token } = req.query,
                 user = Auth.auth(token);
-
-            console.log('xyz', token, user);
             if (user == null) {
                 res.status(404).send({ message: 'Correct token not provided.' });
             }

@@ -1,5 +1,6 @@
 class Constant {
-    static maxNumberOfAnswers = 4;
+    static hashRounds = 10;
+    static updateAllowedFields = ["firstName", "lastName"];
     static authApiAuthenticatePath = "/authenticate";
     static authApiAuthorisePath = "/authorise";
     static authApiUnauthorisePath = "/unauthorise";

@@ -9,16 +9,16 @@ class Auth {
             { expiresIn: '7d' }
         );
         user.token = jwtToken;
-        Auth.#uidToJwt[user.userId] = jwtToken;
+        Auth.#uidToJwt[user.email] = jwtToken;
     }
 
-    static invalidate(userId) {
-        delete Auth.#uidToJwt[userId];
+    static invalidate(email) {
+        delete Auth.#uidToJwt[email];
     }
 
     static auth(jwtToken) {
         const user = verify(jwtToken, process.env.JWTSECRETKEY),
-            realToken = Auth.#uidToJwt[user.userId];
+            realToken = Auth.#uidToJwt[user.email];
         return (realToken === jwtToken ? user : null);
     };
 }

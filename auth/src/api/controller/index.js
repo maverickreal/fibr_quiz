@@ -6,7 +6,7 @@ class Controller {
 
 		router.post('/authorise', Handler.authorise);
 		router.delete('/unauthorise', Handler.unauthorise);
-		router.get('/verify', Handler.verify);
+		router.get('/authenticate', Handler.authenticate);
 
 		return router;
 	}
