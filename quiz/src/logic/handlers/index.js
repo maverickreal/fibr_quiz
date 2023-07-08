@@ -1,3 +1,4 @@
+const answer = require('../../data/models/answer/index.js');
 const Question = require('../../data/models/question/index.js'),
     Quiz = require('../../data/models/quiz/index.js'),
     Attempt = require('../../data/models/attempt/index.js'),
@@ -8,6 +9,24 @@ class Handler {
     static #errorAndLog(err, res) {
         console.log(err);
         res.status(500).send();
+    }
+    static async #getScore(req, answers) {
+        let score = 0;
+        for (let ind = 0; ind < answers.length; ++ind) {
+            const userAns = answers[ind].answer,
+                questionId = req.quiz.questions[ind],
+                question = await Question.findById(questionId);
+            const actualAns = [];
+            for (let ind = 0; ind < question.answers.length; ++ind) {
+                if (question.answers[ind].correct) {
+                    actualAns.push(ind);
+                }
+            }
+            if (userAns.length === actualAns.length && userAns.every(value => actualAns.includes(value))) {
+                ++score;
+            }
+        }
+        return score;
     }
     static async createQuiz(req, res) {
         try {
@@ -70,6 +89,20 @@ class Handler {
             res.status(200).send({ message: 'Answer submitted' });
         } catch (err) {
             Handler.#errorAndLog(err, res);
+        }
+    }
+    static async getQuizScore(req, res) {
+        try {
+            const attempt = await Attempt.findOne(
+                { quiz: req.quiz._id, user: req.user._id }
+            );
+            if (!attempt || attempt.current != req.quiz.questions.length) {
+                return res.status(200).send({ message: 'You have not attempted the quiz.' });
+            }
+            const answers = await Answer.find({ quiz: req.quiz._id, user: req.user._id }, { answer: 1 });
+            const score = await Handler.#getScore(req, answers);
+            res.status(200).send({ score });
+        } catch (err) {
         }
     }
 }

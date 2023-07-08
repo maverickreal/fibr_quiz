@@ -21,7 +21,7 @@ const answerSchema = new mongoose.Schema({
         type: [Number],
         default: [],
         validate: {
-            validator: ans => ans.length < Constant.maxNumberOfAnswers
+            validator: ans => ans.length <= Constant.maxNumberOfAnswers
         }
     }
 });
