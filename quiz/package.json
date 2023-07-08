@@ -4,7 +4,7 @@
   "description": "",
   "main": "src/index.js",
   "scripts": {
-    "dev": "QUIZAPIPORT=4000 AUTHAPIURL=http://127.0.0.1:3000/auth MONGO_URI=mongodb://127.0.0.1/quiz nodemon src/index.js"
+    "dev": "USERAPIURL=http://127.0.0.1:5000/user QUIZAPIPORT=4000 AUTHAPIURL=http://127.0.0.1:3000/auth MONGO_URI=mongodb://127.0.0.1/quiz nodemon src/index.js"
   },
   "author": "maverick",
   "license": "Apache-2.0",

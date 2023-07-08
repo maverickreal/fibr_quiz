@@ -9,8 +9,8 @@ class Handler {
     static async createQuiz(req, res) {
         try {
             const quiz = await Quiz.create({
-                creator: req.body.userName,
-                title: req.body.quizTitle
+                creator: req.user._id,
+                title: req.body.title
             });
             let questions = req.body.questions;
             for (let ind = 0; ind < questions.length; ++ind) {
@@ -18,6 +18,9 @@ class Handler {
                 questions[ind].quiz = quiz._id;
             }
             questions = await Question.insertMany(req.body.questions);
+            questions = questions.map(q => q._id);
+            quiz.questions = questions;
+            await quiz.save();
             res.status(201).send({ message: 'Quiz created' });
         } catch (err) {
             Handler.#errorAndLog(err, res);
