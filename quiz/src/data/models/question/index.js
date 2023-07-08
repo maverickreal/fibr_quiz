@@ -26,7 +26,7 @@ const questionSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    answer: {
+    answers: {
         type: [localAnswerSchema],
         required: true,
         validate: {

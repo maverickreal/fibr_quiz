@@ -1,5 +1,7 @@
-const Question = require('../../data/models/question/index.js');
-const Quiz = require('../../data/models/quiz/index.js');
+const Question = require('../../data/models/question/index.js'),
+    Quiz = require('../../data/models/quiz/index.js'),
+    Attempt = require('../../data/models/attempt/index.js'),
+    Answer = require('../../data/models/answer/index.js');
 
 class Handler {
     static #errorAndLog(err, res) {
@@ -28,30 +30,39 @@ class Handler {
     }
     static async getQuizQuestion(req, res) {
         try {
-            const questionIndex = await Attempt.findOne({ user: req.user.id, quiz: req.quiz.id }, { current: 1 });
+            let attempt = await Attempt.findOne({ user: req.user._id, quiz: req.quiz._id });
+            if (attempt === null) {
+                attempt = await Attempt.create({ user: req.user._id, quiz: req.quiz._id });
+            }
+            const { current: questionIndex } = attempt;
             if (questionIndex == req.quiz.questions.length) {
                 return res.status(200).send({ message: 'You have attempted the quiz.' });
             }
-            const question = await Quiz.aggregate([
-                { $match: { _id: req.quiz.id } },
-                { $project: { question: { $arrayElemAt: ['$quizes', questionIndex] } } }
+            const quizes = await Quiz.aggregate([
+                { $match: { _id: req.quiz._id } },
+                { $project: { question: { $arrayElemAt: ['$questions', questionIndex] } } }
             ]);
-            res.status(200).send({ data: question[0].question });
+            const question = await Question.findById(quizes[0].question, { question: 1, answers: 1, _id: 0 });
+            const qna = { question: question.question, answers: question.answers.map(a => a.answer) };
+            res.status(200).send({ data: qna });
         } catch (err) {
             Handler.#errorAndLog(err, res);
         }
     }
     static async postQuizQuestionAnswer(req, res) {
         try {
-            const questionIndex = await Attempt.findOne({ user: req.user.id, quiz: req.quiz.id }, { current: 1 });
+            let attempt = await Attempt.findOne({ user: req.user._id, quiz: req.quiz._id });
+            if (attempt === null) {
+                attempt = await Attempt.create({ user: req.user._id, quiz: req.quiz._id });
+            }
+            const { current: questionIndex } = attempt;
             if (questionIndex == req.quiz.questions.length) {
                 return res.status(200).send({ message: 'You have attempted the quiz.' });
             }
-            await Answer.create({ user: req.user.id, quiz: req.quiz.id, question: req.body.question, answer: req.body.answer });
-            await Attempt.updateOne({ user: req.user.id, quiz: req.quiz.id }, { $inc: { current: 1 } }, { upsert: true });
-        }
-
-        catch (err) {
+            await Answer.create({ user: req.user._id, quiz: req.quiz._id, question: req.quiz.questions[questionIndex], answer: req.body.answer });
+            await Attempt.updateOne({ user: req.user._id, quiz: req.quiz._id }, { $inc: { current: 1 } }, { upsert: true });
+            res.status(200).send({ message: 'Answer submitted' });
+        } catch (err) {
             Handler.#errorAndLog(err, res);
         }
     }
