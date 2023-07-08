@@ -5,7 +5,7 @@
   "main": "src/index.js",
   "scripts": {
     "test": "USERAPIPORT=5000 ENV=test MONGO_URI=mongodb://127.0.0.1/users jest tests/unit/index.test.js",
-    "dev": "AUTHAPIPORT=3000 USERAPIPORT=5000 MONGO_URI=mongodb://127.0.0.1/users nodemon src/index.js"
+    "dev": "AUTHAPIURL=http://127.0.0.1:3000/auth USERAPIPORT=5000 MONGO_URI=mongodb://127.0.0.1/users nodemon src/index.js"
   },
   "author": "maverick",
   "license": "Apache-2.0",

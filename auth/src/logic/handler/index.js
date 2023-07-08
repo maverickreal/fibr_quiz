@@ -24,7 +24,7 @@ class Handler {
             if (!req.body.user) {
                 return res.status(404).send({ message: 'Correct user not provided.' });
             }
-            Auth.invalidate(req.body.email);
+            Auth.invalidate(req.body.user);
             res.status(200).send();
         }
         catch (error) {

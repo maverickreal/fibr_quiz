@@ -27,6 +27,21 @@ class Handler {
             Handler.#errorAndLog(err, res)
         }
     }
+    static async signin(req, res, next) {
+        try {
+            const user = await User.findOne({ email: Crypt.encrypt(req.body.email) });
+            if (!user) {
+                return res.status(400).send({ message: 'User does not exist.' });
+            }
+            if (!Hash.check(req.body.password, user.password.salt, user.password.hash)) {
+                return res.status(400).send({ message: 'Password is incorrect.' });
+            }
+            req.user = user;
+            next();
+        } catch (err) {
+            Handler.#errorAndLog(err, res)
+        }
+    }
     static async getUser(req, res) {
         try {
             const user = await User.findOne({ email: req.query.email }, { password: 0 });

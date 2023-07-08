@@ -12,8 +12,8 @@ class Auth {
         Auth.#uidToJwt[user.email] = jwtToken;
     }
 
-    static invalidate(email) {
-        delete Auth.#uidToJwt[email];
+    static invalidate(user) {
+        delete Auth.#uidToJwt[user.email];
     }
 
     static auth(jwtToken) {
