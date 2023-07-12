@@ -1,9 +1,11 @@
 const axios = require('axios').create({ validateStatus: false }),
-    Constant = require('../../utility/constant/index.js'),
-    User = require('../../../data/models/user/index.js'),
-    Crypt = require('../../utility/crypt/index.js');
+    container = require('../../utility/di/index.js'),
+    User = require('../../../data/models/user/index.js');
+
+const Constant = container.resolve('Constant');
 
 class Auth {
+    static #logger = container.resolve('logger');
     static async authenticate(req, res, next) {
         const token = req.query.token || req.body.token;
         const resp = await axios.get(process.env.AUTHAPIURL + Constant.authApiAuthenticatePath, {
@@ -21,6 +23,7 @@ class Auth {
         if (resp.status === 200) {
             return res.status(200).send({ token: resp.data.token, message: 'User authorised.' });
         }
+        Auth.#logger.error(__dirname + ' ' + __filename);
         return res.status(500).send();
     }
     static async unauthorise(req, res) {

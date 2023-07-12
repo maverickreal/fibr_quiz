@@ -1,5 +1,7 @@
 const bcrypt = require('bcrypt');
-const Constant = require('../constant/index.js')
+const container = require('../../utility/di/index.js');
+
+const Constant = container.resolve('Constant');
 
 class Hash {
     static async hash(data, salt = null) {

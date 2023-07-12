@@ -1,0 +1,22 @@
+const awilix = require('awilix'),
+    winston = require('winston'),
+    path = require('path');
+
+const container = awilix.createContainer();
+
+container.register({
+    logger: awilix.asValue(winston.createLogger({
+        level: 'info',
+        format: winston.format.combine(
+            winston.format.json(),
+            winston.format.prettyPrint(),
+            winston.format.timestamp()
+        ),
+        transports: [
+            new winston.transports.File({ filename: path.join(__dirname, '../../../../meta/log/index.json'), level: 'error' })
+        ]
+    })),
+    Constant: awilix.asValue(require('../constant/index.js')),
+});
+
+module.exports = container;

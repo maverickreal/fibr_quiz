@@ -1,13 +1,15 @@
-const answer = require('../../data/models/answer/index.js');
 const Question = require('../../data/models/question/index.js'),
     Quiz = require('../../data/models/quiz/index.js'),
     Attempt = require('../../data/models/attempt/index.js'),
     Answer = require('../../data/models/answer/index.js'),
-    Constant = require('../../logic/utility/constant/index.js');
+    container = require('../utility/di/index.js');
+
+const Constant = container.resolve('Constant');
 
 class Handler {
+    static #logger = container.resolve('logger');
     static #errorAndLog(err, res) {
-        console.log(err);
+        Handler.#logger.error(err);
         res.status(500).send();
     }
     static async #getScore(req, answers) {

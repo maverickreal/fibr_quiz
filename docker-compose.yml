@@ -1,0 +1,41 @@
+networks:
+  quiz:
+    driver: bridge
+services:
+  mongo:
+    image: mongo:latest
+    ports:
+      - 27017:27017
+    environment:
+      logLevel: warning
+    networks:
+      - quiz
+  auth-api:
+    build:
+      context: ./auth
+    ports:
+      - 3000:3000
+    networks:
+      - quiz
+  quiz-api:
+    build:
+      context: ./quiz
+    ports:
+      - 4000:4000
+    environment:
+      AUTHAPIPORT: 3000
+      USERAPIURL: http://user-api:5000/user
+      AUTHAPIURL: http://auth-api:3000/auth
+      MONGO_URI: mongodb://mongo/quiz
+    networks:
+      - quiz
+  user-api:
+    build:
+      context: ./user
+    ports:
+      - 5000:5000
+    environment:
+      AUTHAPIURL: http://auth-api/3000/auth
+      MONGO_URI: mongodb://mongo/users
+    networks:
+      - quiz

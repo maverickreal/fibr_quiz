@@ -1,5 +1,7 @@
 const axios = require('axios').create({ validateStatus: false });
-const Constant = require('../../utility/constant/index.js');
+const container = require('../../utility/di/index.js');
+
+const Constant = container.resolve('Constant');
 
 class Auth {
     static async authenticate(req, res, next) {

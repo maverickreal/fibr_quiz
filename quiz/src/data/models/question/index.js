@@ -1,5 +1,7 @@
 const mongoose = require('mongoose');
-const Constant = require('../../../logic/utility/constant/index.js');
+const container = require('../../../logic/utility/di/index.js');
+
+const Constant = container.resolve('Constant');
 
 const localAnswerSchema = new mongoose.Schema({
     answer: {

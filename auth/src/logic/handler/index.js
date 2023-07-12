@@ -1,8 +1,10 @@
 const Auth = require('../utility/auth/index.js');
+const container = require('../utility/di/index.js');
 
 class Handler {
+    static #logger = container.resolve('logger');
     static #errorAndLog(res, error) {
-        console.log(error);
+        Handler.#logger.error(error);
         res.status(500).send();
     }
     static async authorise(req, res) {

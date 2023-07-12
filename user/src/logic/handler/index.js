@@ -1,12 +1,15 @@
 const User = require('../../data/models/user/index.js'),
     Check = require('../../logic/utility/check/index.js'),
     Hash = require('../../logic/utility/hash/index.js'),
-    Constant = require('../utility/constant/index.js'),
-    Crypt = require('../../logic/utility/crypt/index.js');
+    Crypt = require('../../logic/utility/crypt/index.js'),
+    container = require('../../logic/utility/di/index.js');
+
+const Constant = container.resolve('Constant');
 
 class Handler {
+    static #logger = container.resolve('logger');
     static #errorAndLog = (err, res) => {
-        console.log(err);
+        Handler.#logger.error(err);
         res.status(500).send();
     }
     static async signup(req, res, next) {
