@@ -13,7 +13,7 @@ container.register({
             winston.format.prettyPrint()
         ),
         transports: [
-            new winston.transports.File({ filename: path.join(__dirname, '../../../../meta/log/index.json'), level: 'error' })
+            new winston.transports.File({ filename: path.join(__dirname, '../../../../meta/log/index.log.json'), level: 'error' })
         ]
     }))
 });
