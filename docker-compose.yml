@@ -6,20 +6,23 @@ services:
     image: mongo:latest
     ports:
       - 27017:27017
-    environment:
-      logLevel: warning
+    command:
+      - '--logpath'
+      - '/var/log/mongodb/mongod.log'
     networks:
       - quiz
+    volumes:
+      - mongo_data:/data/db
   auth-api:
-    build:
-      context: ./auth
+    build: ./auth
     ports:
       - 3000:3000
     networks:
       - quiz
+    volumes:
+      - auth_data:/app/data
   quiz-api:
-    build:
-      context: ./quiz
+    build: ./quiz
     ports:
       - 4000:4000
     environment:
@@ -29,13 +32,28 @@ services:
       MONGO_URI: mongodb://mongo/quiz
     networks:
       - quiz
+    volumes:
+      - quiz_data:/app/data
+    depends_on:
+      - mongo
+      - auth-api
+      - user-api
   user-api:
-    build:
-      context: ./user
+    build: ./user
     ports:
       - 5000:5000
     environment:
-      AUTHAPIURL: http://auth-api/3000/auth
+      AUTHAPIURL: http://auth-api:3000/auth
       MONGO_URI: mongodb://mongo/users
     networks:
       - quiz
+    volumes:
+      - user_data:/app/data
+    depends_on:
+      - mongo
+      - auth-api
+volumes:
+  mongo_data:
+  auth_data:
+  quiz_data:
+  user_data:

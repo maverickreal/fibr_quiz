@@ -19,7 +19,9 @@ class Auth {
     }
     static async authorise(req, res) {
         const body = { user: { email: req.user.email } };
+        Auth.#logger.fatal('xyz', process.env.AUTHAPIURL + Constant.authApiAuthorisePath);
         const resp = await axios.post(process.env.AUTHAPIURL + Constant.authApiAuthorisePath, body);
+        Auth.#logger.fatal('xyz', resp.status);
         if (resp.status === 200) {
             return res.status(200).send({ token: resp.data.token, message: 'User authorised.' });
         }
